@@ -1,0 +1,81 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/AEH.ttf",
+      "sha1": "0b9177b4624184f8e164288d978199e05ee7df8e"
+    },
+    {
+      "path": "assets/fonts/Avenir-Book.ttf",
+      "sha1": "30ad1f33a0e483714bffae66ee0e22d5bf9fd8fe"
+    },
+    {
+      "path": "assets/fonts/Avenir-Heavy.ttf",
+      "sha1": "1ff41f5473eb942cbbbfecc9e32c3f2af625ac67"
+    },
+    {
+      "path": "assets/fonts/Avenir-Light.ttf",
+      "sha1": "5f6a56066a41dafbbf19639dc91dedab8dc71bb3"
+    },
+    {
+      "path": "assets/fonts/Avenir-Medium.ttf",
+      "sha1": "51e257135ffd2d52b0c5e8de347ed24390eeeb1d"
+    },
+    {
+      "path": "assets/fonts/Avenir-Roman.ttf",
+      "sha1": "d8972fa7c14bdee070e2570966f5ab53e5ea31b5"
+    },
+    {
+      "path": "assets/fonts/AvenirLTStd-Book.otf",
+      "sha1": "db6bfde1c5f1f6d8129df5dce9484d88d3646f0d"
+    },
+    {
+      "path": "assets/fonts/AvenirLTStd-Light.otf",
+      "sha1": "c0a4874272c963adf11c582d49469b6b00a578bb"
+    },
+    {
+      "path": "assets/fonts/AvenirLTStd-Medium.otf",
+      "sha1": "4bb358bdce457d097bb6c36b10c0532f850ce942"
+    },
+    {
+      "path": "assets/fonts/AvenirLTStd-Roman.otf",
+      "sha1": "a614776d8ee6be9ed01ccc136ac5daed16ba604b"
+    },
+    {
+      "path": "assets/fonts/Nunito-Black.ttf",
+      "sha1": "6ab128b1cf7b26874c770547b6463b99090435f4"
+    },
+    {
+      "path": "assets/fonts/Nunito-Bold.ttf",
+      "sha1": "5aec430ff329bbe0e7c1137aac390f2e1d4260a3"
+    },
+    {
+      "path": "assets/fonts/Nunito-ExtraBold.ttf",
+      "sha1": "016b2ad4d67587ed54140b817c758780af620cdb"
+    },
+    {
+      "path": "assets/fonts/Nunito-ExtraLight.ttf",
+      "sha1": "565ebc63ecf257379caddf2162a48277f2afe041"
+    },
+    {
+      "path": "assets/fonts/Nunito-Light.ttf",
+      "sha1": "d6fcfd33bb8cef2884bd84bfbc8299b6c91b2315"
+    },
+    {
+      "path": "assets/fonts/Nunito-Medium.ttf",
+      "sha1": "e920ebbb6ae345487d586c6f9330f60537697ea1"
+    },
+    {
+      "path": "assets/fonts/Nunito-Regular.ttf",
+      "sha1": "4c54e16115bd3d375447600da62e8f6b5b660f9a"
+    },
+    {
+      "path": "assets/fonts/Nunito-SemiBold.ttf",
+      "sha1": "e4c8ca24890c5eee855c70963e429a54f86c51f6"
+    },
+    {
+      "path": "assets/fonts/SIL Open Font License.txt",
+      "sha1": "bffbdfed7225c440f8c3a950cf6f7fcde0775086"
+    }
+  ]
+}
