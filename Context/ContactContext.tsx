@@ -1,74 +1,88 @@
 import React, {
-    createContext,
-    useContext,
-    useState,
-    useCallback,
-    useEffect,
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
 } from 'react';
 
-import { PermissionsAndroid, Platform, } from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 import Contacts from 'react-native-contacts';
 
-
-
-
-
-
-
 const ContactContext = createContext<GlobalContext>();
-const ContactContextProvider = ({ children }) => {
-    const [contactsFromPhone, setContactsFromPhone] = useState<[]>([]);
-    const [contactLoader, setContactLoader] = useState<boolean>(true)
-    const loadContacts = useCallback(() => {
-        Contacts.getAll()
-            .then(contacts => {
-                // console.log(contacts);
-                setContactsFromPhone(contacts);
-            })
-            .catch(e => {
-                // console.log("..........", e)
-                alert('Permission to access contacts was denied');
-                // console.warn('Permission to access contacts was denied');
-            });
-    }, [contactsFromPhone]);
+const ContactContextProvider = ({children}) => {
+  const [contactsFromPhone, setContactsFromPhone] = useState<[]>([]);
+  const [contactsFromPhoneFilter, setContactsFromPhoneFilter] = useState<[]>(
+    [],
+  );
+  const [contactLoader, setContactLoader] = useState<boolean>(true);
+  const loadContacts = useCallback(() => {
+    Contacts.getAll()
+      .then(contacts => {
+        const data = contacts.sort((a, b) => {
+          if (a.displayName > b.displayName) {
+            return 1;
+          }
+          if (a.displayName < b.displayName) {
+            return -1;
+          }
+          return 0;
+        });
+        setContactsFromPhone(data);
+        setContactsFromPhoneFilter(data);
+      })
+      .catch(e => {
+        // console.log("..........", e)
+        alert('Permission to access contacts was denied');
+        // console.warn('Permission to access contacts was denied');
+      });
+  }, [contactsFromPhone]);
 
-    const getContacts = async () => {
-        // We need to ask permission for Android only
-        if (Platform.OS === 'android') {
-            // Calling the permission function
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-                {
-                    title: 'Example App Camera Permission',
-                    message: 'Example App needs access to your camera',
-                },
-            );
-            // console.log('====================================');
-            console.log('granted', granted);
-            // console.log('====================================');
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                // Permission Granted
-                loadContacts();
-            } else {
-                // Permission Denied
-                alert('CAMERA Permission Denied');
-            }
-        } else {
-            loadContacts();
-        }
-        setContactLoader(false);
-    };
-    useEffect(() => {
-        getContacts();
-    }, []);
+  const getContacts = async () => {
+    // We need to ask permission for Android only
+    if (Platform.OS === 'android') {
+      // Calling the permission function
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        {
+          title: 'Example App Camera Permission',
+          message: 'Example App needs access to your camera',
+        },
+      );
+      // console.log('====================================');
+      console.log('granted', granted);
+      // console.log('====================================');
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // Permission Granted
+        loadContacts();
+      } else {
+        // Permission Denied
+        alert('CAMERA Permission Denied');
+      }
+    } else {
+      loadContacts();
+    }
+    setContactLoader(false);
+  };
+  useEffect(() => {
+    getContacts();
+  }, []);
 
-    return (
-        <ContactContext.Provider value={{ contactsFromPhone, setContactsFromPhone, contactLoader, setContactLoader }}>
-            {children}
-        </ContactContext.Provider>
-    );
+  return (
+    <ContactContext.Provider
+      value={{
+        contactsFromPhone,
+        setContactsFromPhone,
+        contactLoader,
+        setContactLoader,
+        contactsFromPhoneFilter,
+        setContactsFromPhoneFilter,
+      }}>
+      {children}
+    </ContactContext.Provider>
+  );
 };
 
 const useContacts = () => useContext(ContactContext);
 
-export { useContacts, ContactContextProvider };
+export {useContacts, ContactContextProvider};

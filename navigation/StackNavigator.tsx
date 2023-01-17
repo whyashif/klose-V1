@@ -2,9 +2,10 @@ import React from 'react';
 import {View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { Login } from '../screens/Login/Login';
+import {Login} from '../screens/Login/Login';
 import Password from '../screens/Password/Password';
-import { Contact } from '../screens/Contact/Contact';
+import {Contact} from '../screens/Contact/Contact';
+import {ContactDetails} from '../screens/ContactDetails/ContactDetails';
 // import {TabNavigation} from '../Components/Navigation/TabNavigation';
 // import {CreateContactScreen} from '../Screens/CreateContact/CreateContactScreen';
 // import {ProfileScreen} from '../Screens/Profile/ProfileScreen';
@@ -28,24 +29,22 @@ import { Contact } from '../screens/Contact/Contact';
 // import {KloseContactProfile} from '../Screens/KloseContactProfile/KloseContactProfile';
 
 const Stack = createNativeStackNavigator();
-const authenticated = false
+const authenticated = false;
 const StackNavigator = () => {
   // const {authenticated} = useAuth();
   // console.log(authenticated);
   return (
     <NavigationContainer>
-      
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-                 {/* <Stack.Screen name="Login" component={Login} /> */}
-          {/* <Stack.Screen name="Password" component={Password} /> */}
-          <Stack.Screen name="Contacts" component={Contact} />
-        </Stack.Navigator>
-     
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {/* <Stack.Screen name="Login" component={Login} /> */}
+        {/* <Stack.Screen name="Password" component={Password} /> */}
+        <Stack.Screen name="Contacts" component={Contact} />
+        <Stack.Screen name="ContactDetails" component={ContactDetails} />
+      </Stack.Navigator>
     </NavigationContainer>
-
   );
 };
 
