@@ -17,12 +17,22 @@ import {
 } from 'react-native';
 import {DEVICE_HEIGHT, DEVICE_WIDTH} from '../../App';
 import {Contact} from 'react-native-contacts';
+import Feather from 'react-native-vector-icons/Feather';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export const ContactDetails = ({navigation, route}) => {
   console.log(route.params.item, 'param data....................');
-  const {thumbnailPath, birthday, givenName, jobTitle, company} =
-    route.params.item;
+  const {
+    thumbnailPath,
+    birthday,
+    givenName,
+    jobTitle,
+    company,
+    phoneNumbers,
+    emailAddresses,
+  } = route.params.item;
   //   const {name, jobtitle, company, profileimagepath} = useData().oneCardData;
   // console.log(name, 'name');
   // useEffect(() => {}, [useData]);
@@ -148,7 +158,6 @@ export const ContactDetails = ({navigation, route}) => {
           </View>
         </View>
         <View style={{padding: 10}}>
-          {/* details */}
           <View style={styles.aboutContainer}>
             {/* about */}
             <Image
@@ -164,12 +173,110 @@ export const ContactDetails = ({navigation, route}) => {
               Kuch toh log kahenge,
             </Text>
           </View>
+          {phoneNumbers.length !== 0 ? (
+            <View style={styles.aboutContainer}>
+              {phoneNumbers.map(number => {
+                return (
+                  <View>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Avenir-Heavy',
+                          fontSize: DEVICE_HEIGHT * 0.02,
+                          color: 'grey',
+                        }}>
+                        {number.number.replace(/\s+/g, '')}
+                      </Text>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <Feather
+                          name="phone-call"
+                          onPress={() => phoneHandler(number.number)}
+                          size={DEVICE_HEIGHT * 0.03}
+                          color="#881098"
+                          style={{marginHorizontal: DEVICE_WIDTH * 0.02}}
+                        />
+                        <FontAwesome5
+                          name="whatsapp"
+                          size={DEVICE_HEIGHT * 0.03}
+                          color="#881098"
+                          onPress={() => whatsAppHandler(number.number)}
+                          style={{marginHorizontal: DEVICE_WIDTH * 0.02}}
+                        />
+                        <FontAwesome5
+                          name="sms"
+                          size={DEVICE_HEIGHT * 0.03}
+                          color="#881098"
+                          onPress={() =>
+                            sendTextMessage(number.number, 'Sent using Klose: ')
+                          }
+                          style={{marginHorizontal: DEVICE_WIDTH * 0.02}}
+                        />
+                      </View>
+                    </View>
+                    <View style={styles.lineSeparator} />
+                  </View>
+                );
+              })}
+            </View>
+          ) : null}
+
+          {emailAddresses.length !== 0 ? (
+            <View style={styles.aboutContainer}>
+              {emailAddresses.map(email => {
+                return (
+                  <View>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Avenir-Heavy',
+                          fontSize: DEVICE_HEIGHT * 0.02,
+                          color: 'grey',
+                        }}>
+                        {email.email}
+                      </Text>
+                      <View>
+                        <Ionicons
+                          name="mail-outline"
+                          onPress={() => emailHandler(email.email)}
+                          size={DEVICE_HEIGHT * 0.03}
+                          color="#881098"
+                        />
+                      </View>
+                    </View>
+                    <View style={styles.lineSeparator} />
+                  </View>
+                );
+              })}
+            </View>
+          ) : null}
+
+          {/* </View> */}
+
+          {/* details */}
 
           {/* Social Container */}
           <View style={{marginTop: 20}}>
             <View style={styles.socialChild}>
               <View style={styles.socialChildContainer}>
-                <Pressable onPress={() => navigation.navigate('Edit Profile')}>
+                <Pressable
+                // onPress={() => navigation.navigate('Edit Profile')}
+                >
                   <Image
                     source={require('./../../assets/social-icons/icons/Facebook.png')}
                     style={styles.socialIcon}
@@ -260,23 +367,12 @@ export const ContactDetails = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: 'white',
-    // borderRadius: 8,
-    // height: DEVICE_HEIGHT,
-    // flex: 1,
-
-    paddingBottom: DEVICE_HEIGHT * 0.15,
+    paddingBottom: DEVICE_HEIGHT * 0.05,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
     },
-
-    // shadowOpacity: 0.29,
-    // shadowRadius: 4.65,
-    // elevation: 7,
-
-    // margin: 10,
     padding: 20,
   },
   imageContainer: {
@@ -354,6 +450,21 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
+  phoneNumberContainer: {
+    // width: DEVICE_WIDTH * 0.8,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: DEVICE_HEIGHT * 0.025,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    marginTop: 30,
+  },
   aboutContainer: {
     // width: DEVICE_WIDTH * 0.8,
     backgroundColor: 'white',
@@ -372,5 +483,12 @@ const styles = StyleSheet.create({
   socialIcon: {
     width: 40,
     height: 40,
+  },
+  lineSeparator: {
+    // width: DEVICE_WIDTH,
+    height: 1,
+    opacity: 0.1,
+    margin: DEVICE_HEIGHT * 0.015,
+    backgroundColor: '#881098',
   },
 });

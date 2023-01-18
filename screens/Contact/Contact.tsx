@@ -24,35 +24,60 @@ import {useSharedValue} from 'react-native-reanimated';
 import {FlashList} from '@shopify/flash-list';
 
 export const Contact = ({navigation}) => {
-  const {
-    contactsFromPhone,
-    contactLoader,
-    contactsFromPhoneFilter,
-    setContactsFromPhoneFilter,
-  } = useContacts();
+  const {contactsFromPhone, contactLoader, contactData, setContactData} =
+    useContacts();
+  const [searchText, setSearchText] = useState('');
 
-  const [searchText, setSearchText] = useState('ashif');
+  // console.log(contactData);
+
+  // console.log(contactsFromPhone, 'contactsFromPhone');
+
+  const OnSearchHandle = (searchQuery: string) => {
+    setSearchText(searchQuery.toLowerCase());
+    if (searchQuery.length <= 0) {
+      setContactData(contactsFromPhone);
+    }
+  };
+
+  const SearchDataHandle = useCallback(() => {
+    if (searchText.length > 0) {
+      const searchQuery = searchText.toLowerCase();
+      const filterData = contactsFromPhone.filter((element: string) => {
+        if (element.displayName !== undefined && element.displayName !== null) {
+          return element.displayName.toLowerCase().includes(searchQuery);
+        }
+      });
+      if (searchText) {
+        setContactData(filterData);
+      }
+    }
+  }, [searchText]);
 
   const message = 'Contact test';
 
-  const phoneHandler = phone => {
-    // Linking.openURL(`tel:${phone}`)
+  const phoneHandler = (phone: string) => {
     RNImmediatePhoneCall.immediatePhoneCall(phone);
-    // console.log('jello');
   };
-  const emailHandler = email => {
+  const emailHandler = (email: string) => {
     Linking.openURL(`mailto:${email}`);
   };
 
-  const whatsAppHandler = phone => {
+  const whatsAppHandler = (phone: string) => {
     Linking.openURL(`whatsapp://send?text=hello&phone=${phone}`);
   };
 
-  const sendTextMessage = useCallback(async (phNumber, message) => {
-    const separator = Platform.OS === 'ios' ? '&' : '?';
-    const url = `sms:${phNumber}${separator}body=${message}`;
-    await Linking.openURL(url);
-  }, []);
+  const sendTextMessage = useCallback(
+    async (phNumber: string, message: string) => {
+      const separator = Platform.OS === 'ios' ? '&' : '?';
+      const url = `sms:${phNumber}${separator}body=${message}`;
+      await Linking.openURL(url);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    SearchDataHandle();
+  }, [SearchDataHandle]);
 
   return (
     <View style={styles.container}>
@@ -60,16 +85,13 @@ export const Contact = ({navigation}) => {
 
       {contactLoader ? (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size={'large'} color="#809" />
+          <ActivityIndicator size={'large'} color="#881098" />
         </View>
       ) : (
         <View>
-          <Searchbar
-            value={searchText}
-            onChangeText={text => setSearchText(text)}
-          />
+          <Searchbar value={searchText} onChangeText={OnSearchHandle} />
           <FlatList
-            data={contactsFromPhone}
+            data={contactData}
             renderItem={({item, index}) => (
               <View style={styles.contactContainer} key={index}>
                 <Pressable

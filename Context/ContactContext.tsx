@@ -12,9 +12,8 @@ import Contacts from 'react-native-contacts';
 const ContactContext = createContext<GlobalContext>();
 const ContactContextProvider = ({children}) => {
   const [contactsFromPhone, setContactsFromPhone] = useState<[]>([]);
-  const [contactsFromPhoneFilter, setContactsFromPhoneFilter] = useState<[]>(
-    [],
-  );
+  const [contactData, setContactData] = useState<[]>([]);
+
   const [contactLoader, setContactLoader] = useState<boolean>(true);
   const loadContacts = useCallback(() => {
     Contacts.getAll()
@@ -28,8 +27,9 @@ const ContactContextProvider = ({children}) => {
           }
           return 0;
         });
+
         setContactsFromPhone(data);
-        setContactsFromPhoneFilter(data);
+        setContactData(data);
       })
       .catch(e => {
         // console.log("..........", e)
@@ -75,8 +75,8 @@ const ContactContextProvider = ({children}) => {
         setContactsFromPhone,
         contactLoader,
         setContactLoader,
-        contactsFromPhoneFilter,
-        setContactsFromPhoneFilter,
+        contactData,
+        setContactData,
       }}>
       {children}
     </ContactContext.Provider>
