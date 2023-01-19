@@ -32,6 +32,7 @@ export const ContactDetails = ({navigation, route}) => {
     company,
     phoneNumbers,
     emailAddresses,
+    note,
   } = route.params.item;
   //   const {name, jobtitle, company, profileimagepath} = useData().oneCardData;
   // console.log(name, 'name');
@@ -170,7 +171,7 @@ export const ContactDetails = ({navigation, route}) => {
                 fontSize: DEVICE_HEIGHT * 0.02,
                 color: 'grey',
               }}>
-              Kuch toh log kahenge,
+              {note}
             </Text>
           </View>
           {phoneNumbers.length !== 0 ? (

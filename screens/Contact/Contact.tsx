@@ -42,15 +42,66 @@ export const Contact = ({navigation}) => {
   const SearchDataHandle = useCallback(() => {
     if (searchText.length > 0) {
       const searchQuery = searchText.toLowerCase();
+      console.log(typeof searchQuery);
       const filterData = contactsFromPhone.filter((element: string) => {
+        // console.log(element.note);
         if (element.displayName !== undefined && element.displayName !== null) {
-          return element.displayName.toLowerCase().includes(searchQuery);
+          return (
+            element.displayName.toLowerCase().includes(searchQuery) ||
+            element.emailAddresses.some(obj => {
+              return obj.email.toLowerCase().includes(searchQuery);
+            }) ||
+            element.phoneNumbers.some(obj2 => {
+              return obj2.number.toLowerCase().includes(searchQuery);
+            }) ||
+            (element.note !== null &&
+              element.note.toLowerCase().includes(searchQuery))
+          );
         }
+
+        //        return {abc, one, two};
+
+        // if (element.displayName !== undefined && element.displayName !== null) {
+        //   return element.emailAddresses.some(obj => {
+        //     return element.phoneNumbers.some(obj2 => {
+        //       return (
+        //         element.displayName.toLowerCase().includes(searchQuery) ||
+        //         obj.email.toLowerCase().includes(searchQuery) ||
+        //         obj2.number.toLowerCase().includes(searchQuery)
+        //       );
+        //     });
+        //   });
+        // }
+        // console.log(abc, '///.........//');
+        // if (element.emailAddresses.length !== 0) {
+        //   return element.emailAddresses.filter(email => {
+        //     // if (email.email.toLowerCase().includes(searchQuery)) {
+        //     if (email !== undefined) {
+        //       email.email.toLowerCase().includes(searchQuery)
+        //     }
+        //     console.log(email, '///');
+        //     // return element;
+        //     // }
+        //   });
+        //   // return dataset;
+        //   // console.log(dataset, '.........');
+        // }
+        // setContactData(dataset);
+        // if (element.displayName !== undefined && element.displayName !== null) {
+        //   return element.displayName.toLowerCase().includes(searchQuery);
+        // }
+        // if (element.emailAddresses.length !== 0) {
+        //   element.emailAddresses.filter(email =>
+        //     console.log(email.email.toLowerCase().includes(searchText)),
+        //   );
+        // }
       });
+      console.log(filterData, 'filterData');
       if (searchText) {
         setContactData(filterData);
       }
     }
+    // console.log(contactData);
   }, [searchText]);
 
   const message = 'Contact test';
@@ -141,8 +192,8 @@ export const Contact = ({navigation}) => {
                     });
                   }}>
                   <Text style={styles.contactName}>{item.givenName}</Text>
-                  <Text style={styles.contactDetails}>Developer</Text>
-                  <Text style={styles.contactDetails}>Why,Gurugram</Text>
+                  <Text style={styles.contactDetails}>{item.jobTitle}</Text>
+                  <Text style={styles.contactDetails}>{item.company}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={styles.iconContainer}>
                       <Feather
