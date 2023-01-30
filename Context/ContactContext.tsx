@@ -13,9 +13,10 @@ const ContactContext = createContext<GlobalContext>();
 const ContactContextProvider = ({children}) => {
   const [contactsFromPhone, setContactsFromPhone] = useState<[]>([]);
   const [contactData, setContactData] = useState<[]>([]);
-
+  const [updateContact, setUpdateContact] = useState<boolean>(false);
   const [contactLoader, setContactLoader] = useState<boolean>(true);
   const loadContacts = useCallback(() => {
+    console.log('get contacts called');
     Contacts.getAll()
       .then(contacts => {
         const data = contacts.sort((a, b) => {
@@ -36,9 +37,10 @@ const ContactContextProvider = ({children}) => {
         alert('Permission to access contacts was denied');
         // console.warn('Permission to access contacts was denied');
       });
-  }, [contactsFromPhone]);
+  }, [contactsFromPhone, updateContact]);
 
-  const getContacts = async () => {
+  const getContacts = useCallback(async () => {
+    console.log('get contacts called');
     // We need to ask permission for Android only
     if (Platform.OS === 'android') {
       // Calling the permission function
@@ -63,10 +65,11 @@ const ContactContextProvider = ({children}) => {
       loadContacts();
     }
     setContactLoader(false);
-  };
+    setUpdateContact(false);
+  }, []);
   useEffect(() => {
     getContacts();
-  }, []);
+  }, [getContacts, updateContact]);
 
   return (
     <ContactContext.Provider
@@ -77,6 +80,7 @@ const ContactContextProvider = ({children}) => {
         setContactLoader,
         contactData,
         setContactData,
+        setUpdateContact,
       }}>
       {children}
     </ContactContext.Provider>

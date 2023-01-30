@@ -5,25 +5,24 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  TextInput,
-  Dimensions,
-  ActivityIndicator,
   ScrollView,
-  Button,
-  Settings,
   Pressable,
   Linking,
   Platform,
+  Modal,
 } from 'react-native';
 import {DEVICE_HEIGHT, DEVICE_WIDTH} from '../../App';
-import {Contact} from 'react-native-contacts';
+import Contacts from 'react-native-contacts';
 import Feather from 'react-native-vector-icons/Feather';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useContacts} from '../../Context/ContactContext';
 
 export const ContactDetails = ({navigation, route}) => {
   console.log(route.params.item, 'param data....................');
+  const {setUpdateContact} = useContacts();
   const {
     thumbnailPath,
     birthday,
@@ -33,7 +32,11 @@ export const ContactDetails = ({navigation, route}) => {
     phoneNumbers,
     emailAddresses,
     note,
+    rawContactId,
+    displayName,
+    recordID,
   } = route.params.item;
+  const [modalVisible, setModalVisible] = useState(false);
   //   const {name, jobtitle, company, profileimagepath} = useData().oneCardData;
   // console.log(name, 'name');
   // useEffect(() => {}, [useData]);
@@ -56,6 +59,42 @@ export const ContactDetails = ({navigation, route}) => {
     const url = `sms:${phNumber}${separator}body=${message}`;
     await Linking.openURL(url);
   }, []);
+
+  // function AddContactToGoogle() {
+  //   var newPerson = {
+  //     emailAddresses: [
+  //       {
+  //         label: 'work',
+  //         email: 'mrniet@example.com',
+  //       },
+  //     ],
+  //     displayName: displayName,
+  //   };
+
+  //   Contacts.openContactForm(newPerson).then(contact => {
+  //     // contact has been saved
+  //   });
+  // }
+
+  const EditContact = () => {
+    var newPerson = {
+      recordID: recordID,
+    };
+
+    Contacts.editExistingContact(newPerson).then(contact => {
+      //contact updated
+      console.log(contact);
+    });
+  };
+
+  const DeleteContact = () => {
+    Contacts.deleteContact({recordID: recordID}).then(recordId => {
+      console.log(recordId);
+      setModalVisible(false);
+      navigation.navigate('Contacts');
+      setUpdateContact(true);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -111,7 +150,7 @@ export const ContactDetails = ({navigation, route}) => {
 
             borderColor: '#881098',
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={EditContact}>
             <Text
               style={{
                 fontSize: 12,
@@ -159,21 +198,24 @@ export const ContactDetails = ({navigation, route}) => {
           </View>
         </View>
         <View style={{padding: 10}}>
-          <View style={styles.aboutContainer}>
-            {/* about */}
-            <Image
-              source={require('./../../assets/social-icons/quotation-marks.png')}
-              style={{position: 'absolute', top: -10}}
-            />
-            <Text
-              style={{
-                fontFamily: 'Avenir-Heavy',
-                fontSize: DEVICE_HEIGHT * 0.02,
-                color: 'grey',
-              }}>
-              {note}
-            </Text>
-          </View>
+          {note !== null ? (
+            <View style={styles.aboutContainer}>
+              {/* about */}
+              <Image
+                source={require('./../../assets/social-icons/quotation-marks.png')}
+                style={{position: 'absolute', top: -10}}
+              />
+              <Text
+                style={{
+                  fontFamily: 'Avenir-Heavy',
+                  fontSize: DEVICE_HEIGHT * 0.02,
+                  color: 'grey',
+                }}>
+                {note}
+              </Text>
+            </View>
+          ) : null}
+
           {phoneNumbers.length !== 0 ? (
             <View style={styles.aboutContainer}>
               {phoneNumbers.map(number => {
@@ -360,6 +402,62 @@ export const ContactDetails = ({navigation, route}) => {
               </View>
             </View>
           </View>
+          <Pressable
+            style={{
+              height: DEVICE_HEIGHT * 0.08,
+              // backgroundColor: 'grey',
+              marginTop: DEVICE_HEIGHT * 0.01,
+              marginBottom: DEVICE_HEIGHT * 0.01,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: '#881098',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => setModalVisible(!modalVisible)}>
+            <MaterialIcons
+              name="delete-outline"
+              color="#881098"
+              size={DEVICE_HEIGHT * 0.03}
+            />
+            <Text
+              style={{
+                color: 'black',
+                opacity: 0.5,
+                marginHorizontal: 10,
+                fontSize: DEVICE_WIDTH * 0.045,
+                fontFamily: 'Avenir-Heavy',
+                textAlign: 'center',
+              }}>
+              Delete Contact
+            </Text>
+          </Pressable>
+          <View style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>Delete Contact</Text>
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <Text style={styles.textStyle}>Cancel</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose2]}
+                      onPress={DeleteContact}>
+                      <Text style={styles.textStyle2}>Delete Contact</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -491,5 +589,62 @@ const styles = StyleSheet.create({
     opacity: 0.1,
     margin: DEVICE_HEIGHT * 0.015,
     backgroundColor: '#881098',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+    marginHorizontal: 10,
+  },
+  buttonClose2: {
+    backgroundColor: '#fff',
+
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textStyle2: {
+    color: '#2196F3',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: '#000',
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 20,
   },
 });
