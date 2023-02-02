@@ -1,4 +1,4 @@
-package com.klose.newarchitecture.modules;
+package com.klosecontactapp.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

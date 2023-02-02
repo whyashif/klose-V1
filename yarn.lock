@@ -1590,6 +1590,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/masked-view/-/masked-view-0.1.11.tgz"
   "version" "0.1.11"
 
+"@react-native-google-signin/google-signin@^9.0.2":
+  "integrity" "sha512-oTD0ZT6ZSH7CZjM1i6hR/gFAXv9As7nxhN99XGliNxf6SChZcQRwGeaz1DjoYrWExWDVX00EH1Per3dMjhAWkQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-google-signin/google-signin/-/google-signin-9.0.2.tgz"
+  "version" "9.0.2"
+
 "@react-native/assets@1.0.0":
   "integrity" "sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ=="
   "resolved" "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -1694,6 +1699,11 @@
   "version" "6.0.1"
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@supersami/rn-foreground-service@^2.1.0":
+  "integrity" "sha512-Ou++vMcW42uZDuZr7wWMJYKZL7Ui1Z5lfY5fg7LT2vVwuuDNjjFf4RCHxul9y33VcoQrPTyPJhd0jQ3+3kFi8w=="
+  "resolved" "https://registry.npmjs.org/@supersami/rn-foreground-service/-/rn-foreground-service-2.1.0.tgz"
+  "version" "2.1.0"
 
 "@tootallnate/once@1":
   "integrity" "sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw=="
@@ -6354,6 +6364,11 @@
   dependencies:
     "eventemitter3" "^4.0.7"
 
+"react-native-call-detection@^1.9.0":
+  "integrity" "sha512-UaF/I1cp2UnIbdCh3UmrFIA4an8El1gIBM6uIbM+OYCrfe5btIj7DYtjqtNoeKOtF7fap32m37v6lafQ9SZHpg=="
+  "resolved" "https://registry.npmjs.org/react-native-call-detection/-/react-native-call-detection-1.9.0.tgz"
+  "version" "1.9.0"
+
 "react-native-call-log@^2.1.2":
   "integrity" "sha512-nWHmb+QMN/AbbZFEuUGiQePssPgjQr5dibNAURDlqO4S5wuLk1XzxxsLUAVHZnB0FdJoMlajD7tUAXtaoxYwUQ=="
   "resolved" "https://registry.npmjs.org/react-native-call-log/-/react-native-call-log-2.1.2.tgz"
@@ -6455,7 +6470,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.41.2", "react-native@>= 0.64.3", "react-native@>=0.40.0", "react-native@>=0.47.0", "react-native@>=0.57", "react-native@>=0.64.0", "react-native@0.70.6":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.41.2", "react-native@>= 0.64.3", "react-native@>=0.26.0", "react-native@>=0.40.0", "react-native@>=0.47.0", "react-native@>=0.57", "react-native@>=0.59.0", "react-native@>=0.64.0", "react-native@0.70.6":
   "integrity" "sha512-xtQdImPHnwgraEx3HIZFOF+D1hJ9bC5mfpIdUGoMHRws6OmvHAjmFpO6qfdnaQ29vwbmZRq7yf14sbury74R/w=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.6.tgz"
   "version" "0.70.6"

@@ -15,6 +15,7 @@ import {Login} from './screens/Login/Login';
 import Password from './screens/Password/Password';
 import {ContactContextProvider} from './Context/ContactContext';
 import {DeviceEventEmitter, Platform} from 'react-native';
+import {AuthenticationContextProvider} from './Context/AuthContext';
 
 export const DEVICE_HEIGHT = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -34,9 +35,11 @@ const App = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ContactContextProvider>
-        <StackNavigator />
-      </ContactContextProvider>
+      <AuthenticationContextProvider>
+        <ContactContextProvider>
+          <StackNavigator />
+        </ContactContextProvider>
+      </AuthenticationContextProvider>
     </GestureHandlerRootView>
   );
 };

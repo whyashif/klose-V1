@@ -13,12 +13,11 @@ import {urlPort} from '../../config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuth} from '../../Context/AuthContext';
 
-export const PasswordScreen = ({navigation}) => {
+export const ForgetPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newUser, setNewUser] = useState(false);
   const [errormsg, setErrorMsg] = useState('');
-  const {setAuthenticated} = useAuth();
 
   const handleOnChange = e => {
     e.preventDefault();
@@ -116,11 +115,6 @@ export const PasswordScreen = ({navigation}) => {
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text>Continue</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonForgetPassword}
-          onPress={handleSubmit}>
-          <Text style={styles.buttonForgetPassword}>Forgot Password?</Text>
-        </TouchableOpacity>
 
         <Text style={styles.orText}>or</Text>
 
@@ -171,14 +165,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'white',
     marginTop: 40,
-  },
-
-  buttonForgetPassword: {
-    color: '#881098',
-    display: 'flex',
-    alignItems: 'flex-end',
-    fontWeight: 'bold',
-    marginVertical: 5,
   },
   googleButton: {
     display: 'flex',

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "472167905856",
+    "project_id": "klose-contact-7920e",
+    "storage_bucket": "klose-contact-7920e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472167905856:android:b8a27f2ca31df39431fda5",
+        "android_client_info": {
+          "package_name": "com.klosecontactapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472167905856-dsb3m2l78mq3louhc2k9n2eb0qc1olmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.klosecontactapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "472167905856-sk66s6515jbi1f1mcdahuqtp50vj4ub4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkvRwN4FyG4qOZnGpTVvdnn5DFdOoBZ24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472167905856-sk66s6515jbi1f1mcdahuqtp50vj4ub4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

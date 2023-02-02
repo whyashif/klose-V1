@@ -1,7 +1,16 @@
-import {View, Text, Button} from 'react-native';
-import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  Button,
+  PermissionsAndroid,
+  Platform,
+  AppState,
+} from 'react-native';
+import React, {useEffect, useCallback} from 'react';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 import BackgroundService from 'react-native-background-actions';
+import CallDetectorManager from 'react-native-call-detection';
+import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
 
@@ -76,9 +85,68 @@ const BackgroundRun = () => {
   };
 
   useEffect(() => {
-    createNotificationChannel();
+    askPermission();
+  });
+
+  askPermission = async () => {
+    try {
+      await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+      ]);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  useEffect(() => {
+    // const callDetector = new CallDetectorManager((event, phoneNumber) => {
+    //   if (event === 'Disconnected') {
+    //   } else if (event === 'Connected') {
+    //     console.log('Connect');
+    //   } else if (event === 'Incoming') {
+    //     console.log('Incoming', phoneNumber);
+    //   } else if (event === 'Dialing') {
+    //   } else if (event === 'Offhook') {
+    //   } else if (event === 'Missed') {
+    //   }
+    // }, true);
+    // const subscription = AppState.addEventListener('change', nextAppState => {
+    //   if (nextAppState === 'active') {
+    //     onStop();
+    //   } else onStart();
+    // });
+    // return () => {
+    //   // callDetector.dispose()
+    //   subscription.remove();
+    // };
   }, []);
 
+  const onStart = () => {
+    if (ReactNativeForegroundService.is_task_running('callLogTask')) return;
+    ReactNativeForegroundService.add_task(
+      () => {
+        console.log('start task');
+      },
+      {
+        delay: 5000,
+        onLoop: true,
+        taskId: 'callLogTask',
+        onError: e => console.log(`Error logging:`, e),
+      },
+    );
+    return ReactNativeForegroundService.start({
+      id: 144,
+      visibility: 'secret',
+      importance: 'low',
+    });
+  };
+
+  const onStop = () => {
+    if (ReactNativeForegroundService.is_task_running('callLogTask')) {
+      ReactNativeForegroundService.remove_task('callLogTask');
+    }
+    return ReactNativeForegroundService.stop();
+  };
   return (
     <View>
       <Text>BackgroundRun</Text>
