@@ -1,0 +1,672 @@
+{
+    "info": {
+        "_postman_id": "da64125a-02e0-4da2-af4d-b32659e82fcd",
+        "name": "klose",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "9947495"
+    },
+    "item": [
+        {
+            "name": "login/signup",
+            "item": [
+                {
+                    "name": "http://localhost:3000/login",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\":\"ahsantest@gmail.com\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/login",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "http://localhost:3000/verify/password",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n   \"email\":\"ahsan@gmail.com\",\n    \"password\":\"ahsanansar\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/verify/password",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "verify",
+                                "password"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "http://localhost:3000/signup/name",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoidGVzdGFoc2FuQGdtYWlsLmNvbSIsImtpZCI6NDgwMTUyMjQsImlhdCI6MTY1NjY4MzE1OSwiZXhwIjo0MjQ4NjgzMTU5fQ.Shtpn3OAeduu7ssxmR_r1TZQ8_nv7qpJLRK3BctA4vs",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "tok",
+                                "value": "sgdjagsjdhgasjdhgasjd",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n   \"name\":\"ahsan\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/signup/name",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "signup",
+                                "name"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "http://localhost:3000/signup/details",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW50ZXN0QGdtYWlsLmNvbSIsImtpZCI6NDQwODk5MTEsImlhdCI6MTY1NTYyNTUxMCwiZXhwIjo0MjQ3NjI1NTEwfQ.VkmmwglJ9TdbrDCt_gnP6FGL8I-VkiRqE2xrlZcaXHY",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"jobtitle\":\"dec\",\n    \"company\":\"why\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/signup/details",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "signup",
+                                "details"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "http://localhost:3000/signup/customurl",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW50ZXN0QGdtYWlsLmNvbSIsImtpZCI6NDQwODk5MTEsImlhdCI6MTY1NTYyNTUxMCwiZXhwIjo0MjQ3NjI1NTEwfQ.VkmmwglJ9TdbrDCt_gnP6FGL8I-VkiRqE2xrlZcaXHY",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usercustomurl\":\"ahsantest\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/signup/customurl",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "signup",
+                                "customurl"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "dashboard",
+            "item": [
+                {
+                    "name": "homepage",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjIxNzQyNmMxODk2ZjY3Mzk3MzI1MTExIiwia2lkIjo3Nzc5NjcxMywiaWF0IjoxNjU4MzAxNzE1LCJleHAiOjQyNTAzMDE3MTV9.fAq4sUZoVltBgi2R0du9Tc_-uRa31yq-xZhIqsbqDQQ",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://3.109.143.227/api/user/data",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "user",
+                                "data"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "public profile",
+            "item": [
+                {
+                    "name": "publicprofile",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userurl\":\"ahsantest\"\n\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/public/profile",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "public",
+                                "profile"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "homepage",
+            "item": []
+        },
+        {
+            "name": "contact",
+            "item": [
+                {
+                    "name": "get all contact",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/contact/cardcontact/all",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "contact",
+                                "cardcontact",
+                                "all"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "get all contact",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "http://localhost:3000/contact/cardcontact/all",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "3000",
+                                    "path": [
+                                        "contact",
+                                        "cardcontact",
+                                        "all"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "X-Powered-By",
+                                    "value": "Express"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Credentials",
+                                    "value": "true"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json; charset=utf-8"
+                                },
+                                {
+                                    "key": "Content-Length",
+                                    "value": "6729"
+                                },
+                                {
+                                    "key": "ETag",
+                                    "value": "W/\"1a49-CMtl1j4sGinlpLM3+NJI4Lt0ims\""
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Wed, 11 Jan 2023 09:52:26 GMT"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=5"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": [\n        {\n            \"mediacardfile\": [\n                \"6374ef21a0fd0674e123d9d8\"\n            ],\n            \"_id\": \"636f521986a9a37f48c7ddc1\",\n            \"kid\": 33305818,\n            \"name\": \"sid dev\",\n            \"__v\": 6,\n            \"jobtitle\": \"dev..\",\n            \"facebook\": \"facebook\",\n            \"imagesize\": false,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668496929605.jpg\",\n            \"url\": \"ahsan\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6374c67a22425f3972b18021\",\n            \"kid\": 73386003,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Hsllo\",\n            \"jobtitle\": \"Dev\",\n            \"imagesize\": false,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668597440781\",\n            \"private\": true,\n            \"url\": \"Urlllllllllll\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6374c7e022425f3972b18040\",\n            \"kid\": 73386003,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"\",\n            \"jobtitle\": \"\",\n            \"private\": true,\n            \"url\": \"Bxbsbsndbdndb\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6374c9eb22425f3972b18061\",\n            \"kid\": 73386003,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Why\",\n            \"jobtitle\": \"Dev \",\n            \"private\": true,\n            \"url\": \"PrivTecard\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6374dbfe22425f3972b180a1\",\n            \"kid\": 73386003,\n            \"name\": \"Ashuf\",\n            \"__v\": 0,\n            \"company\": \"Jaha delivery na karni pade\",\n            \"jobtitle\": \"Design karta hoob bro\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668602919029\",\n            \"private\": false,\n            \"url\": \"Desigberrrrrrrr\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6374de6522425f3972b180bf\",\n            \"kid\": 73386003,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Jsjdbdbd\",\n            \"jobtitle\": \"Shbdbdbd\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668603509788\",\n            \"private\": true,\n            \"url\": \"Bsbsbsb\"\n        },\n        {\n            \"mediacardfile\": [\n                \"6375c22ed860d019bab7e798\"\n            ],\n            \"_id\": \"6375c0b8b515aa1968bff477\",\n            \"kid\": 33305818,\n            \"name\": \"new\",\n            \"__v\": 1,\n            \"company\": \"new\",\n            \"jobtitle\": \"new\",\n            \"private\": true,\n            \"url\": \"new\",\n            \"summary\": \"new summary hai hyehjdjds\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6375c3f122425f3972b181ce\",\n            \"kid\": 73386003,\n            \"name\": \"Ashuf khan\",\n            \"__v\": 0,\n            \"company\": \"Work\",\n            \"jobtitle\": \"Work\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668662296394\",\n            \"private\": true,\n            \"url\": \"Jshshshdbahshhshsjshsksbeksbjskshsnshsbsjebsjeb\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6375cbc022425f3972b18276\",\n            \"kid\": 73386003,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Why\",\n            \"jobtitle\": \"Dev\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668664317024\",\n            \"private\": true,\n            \"url\": \"Sbbsbsbsbsbshhshshahabjabahsjsuwjshsjs\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63773ae3a8b07a834970b9d1\",\n            \"kid\": 74154956,\n            \"name\": \"Ashif honn main\",\n            \"__v\": 0,\n            \"company\": \"Part 3\",\n            \"jobtitle\": \"Part 2\",\n            \"private\": false,\n            \"url\": \"Meranaamhaibullaaaaa\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"637742b2a8b07a834970ba17\",\n            \"kid\": 74154956,\n            \"name\": \"Ashif 001\",\n            \"__v\": 0,\n            \"company\": \"Whyventures\",\n            \"jobtitle\": \"Dev \",\n            \"imagesize\": false,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668760259925\",\n            \"private\": false,\n            \"url\": \"Bullanabsssh\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"6377438aa8b07a834970ba32\",\n            \"kid\": 74154956,\n            \"name\": \"Mera naam sinchan nohara hai\",\n            \"__v\": 0,\n            \"company\": \"Har jageh\",\n            \"jobtitle\": \"Raita failata hoon\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668760483705\",\n            \"private\": false,\n            \"url\": \"Ahsanbhaikabsudhrenge\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"637744caa8b07a834970ba4b\",\n            \"kid\": 74154956,\n            \"name\": \"Kya problem solve hui\",\n            \"__v\": 0,\n            \"company\": \"Gebius yaar\",\n            \"jobtitle\": \"Yaaaaaaaaaar\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1668760795205\",\n            \"private\": true,\n            \"url\": \"Guinessssjajshsh\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"637b100da8b07a834970bb92\",\n            \"kid\": 52784168,\n            \"name\": \"Ashif2\",\n            \"__v\": 0,\n            \"company\": \"Why\",\n            \"jobtitle\": \"Dev \",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1669009441094\",\n            \"private\": false,\n            \"url\": \"dev dev dev\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63a41da2a8b07a834970bc3e\",\n            \"kid\": 51622408,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Test\",\n            \"jobtitle\": \"Test\",\n            \"imagesize\": false,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1671699897314\",\n            \"private\": true,\n            \"url\": \"Bullllaaaaaaaaaaa\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63a41ddaa8b07a834970bc56\",\n            \"kid\": 51622408,\n            \"name\": \"Ashif\",\n            \"__v\": 0,\n            \"company\": \"Bsbsbxbs\",\n            \"jobtitle\": \"Nxnxbxb\",\n            \"private\": false,\n            \"url\": \"Bxbxbxbxbdbdbdb\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63a55ce6a8b07a834970bc81\",\n            \"kid\": 36389034,\n            \"name\": \"Ohzb\",\n            \"__v\": 0,\n            \"company\": \"Ownerhvhcnjjvj\",\n            \"jobtitle\": \"Devjvjvjv\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1671784885919\",\n            \"private\": false,\n            \"url\": \"Naamhaibullarakhtahoonkhulla\",\n            \"phone\": \"12344556677\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63a5989ca8b07a834970bcf9\",\n            \"kid\": 36389034,\n            \"name\": \"Ashif 2\",\n            \"__v\": 0,\n            \"company\": \"Dev\",\n            \"jobtitle\": \"Birfireapp\",\n            \"private\": true,\n            \"url\": \"Bulllllaaaaaaaaaaaaaaaaa\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63a99e99a8b07a834970bd94\",\n            \"kid\": 99019245,\n            \"name\": \"N\",\n            \"__v\": 0,\n            \"company\": \"Dev\",\n            \"jobtitle\": \"Job\",\n            \"imagesize\": true,\n            \"metaimagepath\": null,\n            \"profileimagepath\": \"https://klosemedia.s3.ap-south-1.amazonaws.com/1672060596597\",\n            \"private\": false,\n            \"url\": \"Cardno1dec26\",\n            \"phone\": \"8472879237\"\n        },\n        {\n            \"mediacardfile\": [],\n            \"_id\": \"63b3e8a1a8b07a834970c4aa\",\n            \"kid\": 99019245,\n            \"name\": \"2nd card\",\n            \"__v\": 0,\n            \"company\": \"Card 2\",\n            \"jobtitle\": \"Card 2\",\n            \"private\": false,\n            \"url\": \"Bzbsbsbsbbssb\"\n        },\n        {\n            \"company\": \"\",\n            \"department\": null,\n            \"displayName\": \"Hello 2\",\n            \"emailAddresses\": [],\n            \"familyName\": \"\",\n            \"givenName\": \"Hello 2\",\n            \"hasThumbnail\": false,\n            \"imAddresses\": [],\n            \"isStarred\": false,\n            \"jobTitle\": \"\",\n            \"middleName\": \"\",\n            \"note\": null,\n            \"phoneNumbers\": [],\n            \"postalAddresses\": [],\n            \"prefix\": null,\n            \"rawContactId\": \"3\",\n            \"recordID\": \"1\",\n            \"suffix\": null,\n            \"thumbnailPath\": \"\",\n            \"urlAddresses\": []\n        },\n        {\n            \"company\": \"\",\n            \"department\": null,\n            \"displayName\": \"Nee\",\n            \"emailAddresses\": [],\n            \"familyName\": \"\",\n            \"givenName\": \"Nee\",\n            \"hasThumbnail\": false,\n            \"imAddresses\": [],\n            \"isStarred\": false,\n            \"jobTitle\": \"\",\n            \"middleName\": \"\",\n            \"note\": null,\n            \"phoneNumbers\": [],\n            \"postalAddresses\": [],\n            \"prefix\": null,\n            \"rawContactId\": \"5\",\n            \"recordID\": \"5\",\n            \"suffix\": null,\n            \"thumbnailPath\": \"\",\n            \"urlAddresses\": []\n        },\n        {\n            \"company\": \"\",\n            \"department\": \"\",\n            \"displayName\": \"Nee\",\n            \"emailAddresses\": [],\n            \"familyName\": \"\",\n            \"givenName\": \"Nee\",\n            \"hasThumbnail\": false,\n            \"imAddresses\": [],\n            \"isStarred\": false,\n            \"jobTitle\": \"\",\n            \"middleName\": \"\",\n            \"note\": \"\",\n            \"phoneNumbers\": [],\n            \"postalAddresses\": [],\n            \"prefix\": null,\n            \"rawContactId\": \"6\",\n            \"recordID\": \"6\",\n            \"suffix\": null,\n            \"thumbnailPath\": \"\",\n            \"urlAddresses\": []\n        },\n        {\n            \"company\": \"Why\",\n            \"department\": null,\n            \"displayName\": \"Ashif\",\n            \"emailAddresses\": [\n                [\n                    null\n                ]\n            ],\n            \"familyName\": \"\",\n            \"givenName\": \"Ashif\",\n            \"hasThumbnail\": false,\n            \"imAddresses\": [],\n            \"isStarred\": false,\n            \"jobTitle\": \"Wgy\",\n            \"middleName\": \"\",\n            \"note\": \"\",\n            \"phoneNumbers\": [\n                {\n                    \"id\": \"30\",\n                    \"label\": \"mobile\",\n                    \"number\": \"8472879237\"\n                },\n                {\n                    \"id\": \"33\",\n                    \"label\": \"mobile\",\n                    \"number\": \"8585858585\"\n                }\n            ],\n            \"postalAddresses\": [],\n            \"prefix\": null,\n            \"rawContactId\": \"7\",\n            \"recordID\": \"7\",\n            \"suffix\": null,\n            \"thumbnailPath\": \"\",\n            \"urlAddresses\": []\n        }\n    ]\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "settingspanel",
+            "item": [
+                {
+                    "name": "http://3.109.143.227/api/put/data",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjIxNzQyNmMxODk2ZjY3Mzk3MzI1MTExIiwia2lkIjo3Nzc5NjcxMywiaWF0IjoxNjU3ODg1NDkwLCJleHAiOjQyNDk4ODU0OTB9.jsU0G-YInbQJ3mkpvQRvMBqs8MiOkbILWaXfBuLadmc",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"phone\":\"8439776330\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/put/data",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "put",
+                                "data"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "notification",
+            "item": []
+        },
+        {
+            "name": "Cards",
+            "item": [
+                {
+                    "name": "upload image",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjMxNjNkNDRlZWJkNGVlN2Q4YzQxMGRjIiwia2lkIjozMzMwNTgxOCwiaWF0IjoxNjY3NDY2MjExLCJleHAiOjQyNTk0NjYyMTF9.vfwuzDkBOmzl8saSqdi4ChFuqEopWGdRKMQGtDM7q1U",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": "/home/ahsan/Pictures/wallpaperflare.com_wallpaper (1).jpg"
+                                },
+                                {
+                                    "key": "_id",
+                                    "value": "63651582b7362b9d88a0e839",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/new/card/image",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "new",
+                                "card",
+                                "image"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get cards",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjMxNjNkNDRlZWJkNGVlN2Q4YzQxMGRjIiwia2lkIjozMzMwNTgxOCwiaWF0IjoxNjY4MTY0MTYzLCJleHAiOjQyNjAxNjQxNjN9.QrU_Sd6o6T-SINbCe4PwAUr3PONtvrGarXT_N-orR9c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/new/card",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "new",
+                                "card"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "post name",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjMxNjNkNDRlZWJkNGVlN2Q4YzQxMGRjIiwia2lkIjozMzMwNTgxOCwiaWF0IjoxNjY4MTY0MTYzLCJleHAiOjQyNjAxNjQxNjN9.QrU_Sd6o6T-SINbCe4PwAUr3PONtvrGarXT_N-orR9c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\":\"ahsan\",\n    \"_id\":\"63651582b7362b9d88a0e839\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/new/card",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "new",
+                                "card"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjMxNjNkNDRlZWJkNGVlN2Q4YzQxMGRjIiwia2lkIjozMzMwNTgxOCwiaWF0IjoxNjY4MTY0MTYzLCJleHAiOjQyNjAxNjQxNjN9.QrU_Sd6o6T-SINbCe4PwAUr3PONtvrGarXT_N-orR9c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"_id\":\"63651582b7362b9d88a0e839\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://3.109.143.227/api/new/card",
+                            "protocol": "http",
+                            "host": [
+                                "3",
+                                "109",
+                                "143",
+                                "227"
+                            ],
+                            "path": [
+                                "api",
+                                "new",
+                                "card"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "social login and signup",
+            "item": [
+                {
+                    "name": "social login",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"socilaId\":\"104088959182297690010\",\n    \"social_email\":\"ahsan@gmail.com\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/social/auth/login",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "social",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "http://3.109.143.227/api/notification/data",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbGlkIjoiYWhzYW5AZ21haWwuY29tIiwidXNlcmlkIjoiNjIxNzQyNmMxODk2ZjY3Mzk3MzI1MTExIiwia2lkIjo3Nzc5NjcxMywiaWF0IjoxNjU3NjA4NjkwLCJleHAiOjQyNDk2MDg2OTB9.UMygQA170xtBhp31M9OvQdTGXFgGYik1SMglR5iIMlk",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://3.109.143.227/api/notification/data",
+                    "protocol": "http",
+                    "host": [
+                        "3",
+                        "109",
+                        "143",
+                        "227"
+                    ],
+                    "path": [
+                        "api",
+                        "notification",
+                        "data"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}

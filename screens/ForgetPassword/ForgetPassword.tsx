@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,51 +6,66 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  Alert,
+  Pressable,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { utilityStyles } from '../../UtilityStyle/UtilityStyle';
 
 import axios from 'axios';
-import {urlPort} from '../../config/config';
+import { urlPort } from '../../config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useAuth} from '../../Context/AuthContext';
+import { useAuth } from '../../Context/AuthContext';
+import { DEVICE_WIDTH } from '../../App';
+import { styles } from './ForgotPasswordStyle';
 
-export const ForgetPassword = ({navigation}) => {
+export const ForgetPassword = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
   const [newUser, setNewUser] = useState(false);
-  const [errormsg, setErrorMsg] = useState('');
 
-  const handleOnChange = e => {
-    e.preventDefault();
-    setErrorMsg('');
-    setEmail(e.target.value);
-    console.log(email);
-  };
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [errorMessageOtp, setErrorMessageOtp] = useState('');
+  const [errorMessagePassword, setErrorMessagePassord] = useState('');
+  const [timer, setTimer] = useState(60)
+  console.log(route, 'param data....................');
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleSubmit = async => {
     try {
       if (/\s/g.test(password) === true) {
-        alert('Spaces are not allowed in Password');
+        setErrorMessagePassord('Spaces are not allowed in Password');
       } else if (password.length <= 5) {
-        alert(' Password must be atleast 6 characters');
+        setErrorMessagePassord(' Password must be atleast 6 characters');
         return;
       } else if (password.length > 26) {
-        alert('Password can have only 24 characters.');
+        setErrorMessagePassord('Password can have only 24 characters.');
 
         return;
+      } else if (otp === '') {
+        setErrorMessageOtp('Enter a valid otp');
       } else {
-        const param = {
+        const data = {
+          enterpassword: password,
+          otp: otp,
           email: email,
-          password: password,
         };
-        await axios.post(`${urlPort}/verify/password`, param).then(res => {
-          if (res !== null) {
-            AsyncStorage.setItem('@token', JSON.stringify(res.data.data.token));
-            setAuthenticated(true);
-            navigation.navigate('HomeScreen');
-            console.log(res.data.data.token);
-          }
-        });
+        console.log(data);
+        axios
+          .post(`${urlPort}/reset/password`, data)
+          .then(res => {
+            console.log(res.data, 'dataaaa');
+            if (!res.data.success) {
+              setErrorMessageOtp('Bhai otp dekh le');
+              return;
+            } else if (res.data.success) {
+              alert(
+                'password change hogaya bhai aage se yaad rakhna otp bhejne ke paise lagte hain aur hum funded nai hai',
+              );
+              navigation.navigate('PassWordScreen');
+            }
+          })
+          .catch(err => console.error(err));
       }
     } catch (error) {
       if (error.response !== undefined) {
@@ -58,9 +73,10 @@ export const ForgetPassword = ({navigation}) => {
           alert(error.response.data.message);
         }
       }
-      // console.log(error.response.data)
+      console.log(error);
     }
   };
+
   const getEmail = async () => {
     try {
       const value = await AsyncStorage.getItem('@storage_Key');
@@ -75,25 +91,55 @@ export const ForgetPassword = ({navigation}) => {
       // error reading value
     }
   };
+
+  const handleForgetPassword = () => {
+    setTimer(59)
+    axios
+      .post(`${urlPort}/forget/password/${email}`)
+      .then(res => {
+        // console.log(res, 'forget password response');
+        const { success } = res.data;
+        console.log(success, 'data');
+        if (success === false) {
+          const { message } = res.data;
+          alert(
+            "You've exceeded the maximum number of attempts to send verification code.",
+          );
+        } else {
+          navigation.navigate({
+            name: 'ForgotPassword',
+            params: res.data,
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
   useEffect(() => {
     getEmail();
-  }, []);
+    if (timer > 0) {
+      setTimeout(() => setTimer(timer - 1), 1000);
+    }
+
+  }, [timer]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          // style={{ marginTop: 20 }}
-          // style={{ width: 50, height: 50 }}
+          style={{ margin: 10 }}
           source={require('./../../assets/login/Back.png')}
         />
         <Image
-          // style={{ marginTop: 20 }}
+          style={{ marginTop: 20 }}
           source={require('./../../assets/login/Klose.png')}
         />
-        <Image
-          // style={{ display: "hidden" }}2
-          source={require('./../../assets/login/Back.png')}
-        />
+        <Image style={{ margin: 10 }} />
       </View>
       <View
         style={{
@@ -102,84 +148,83 @@ export const ForgetPassword = ({navigation}) => {
           justifyContent: 'space-around',
         }}>
         <View>
-          <Text style={styles.text}>Password</Text>
+          <Text style={styles.signUptext}>Reset Password</Text>
+          <Text style={styles.inputHeaderMessage}>
+            Don’t worry. We have sent an OTP on your email
+          </Text>
+          <Text style={styles.inputHeaderEmail}>{email}</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            secureTextEntry={true}
-            onChangeText={text => setPassword(text)}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeader}>OTP</Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.input1}
+                placeholder="********"
+                value={otp}
+                placeholderTextColor="rgba(86, 86, 87, 0.3)"
+                onChangeText={text => setOtp(text)}
+                secureTextEntry={passwordVisibility}
+                keyboardType="numeric"
+              />
+              <View style={{ marginRight: DEVICE_WIDTH * 0.05 }}>
+                {timer === 0 ? <Pressable onPress={handleForgetPassword}>
+                  <Text style={{ color: "#809" }}>Resend</Text>
+
+
+                </Pressable> : <Pressable>
+                  <Text style={{ color: "#4A4A4A" }}>Resend</Text>
+                  <Text style={{ color: "#4A4A4A" }}>&nbsp;in 0.{timer}</Text>
+
+                </Pressable>
+
+                }
+
+
+              </View>
+            </View>
+            <Text style={utilityStyles.errorMessage}>
+              {errorMessageOtp}
+            </Text>
+          </View>
+          <Text />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeader}>New Password</Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="********"
+                value={password}
+                placeholderTextColor="rgba(86, 86, 87, 0.3)"
+                onChangeText={text => setPassword(text)}
+                secureTextEntry={passwordVisibility}
+              />
+              <View style={{ marginRight: DEVICE_WIDTH * 0.05 }}>
+                {passwordVisibility ? (
+                  <Pressable
+                    onPress={() => {
+                      setPasswordVisibility(!passwordVisibility);
+                    }}>
+                    <Icon name="visibility" size={20} color="#BA68C8" />
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => {
+                      setPasswordVisibility(!passwordVisibility);
+                    }}>
+                    <Icon name="visibility-off" size={20} color="#BA68C8" />
+                  </Pressable>
+                )}
+              </View>
+            </View>
+            <Text style={utilityStyles.errorMessage}>
+              {errorMessagePassword}
+            </Text>
+          </View>
         </View>
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text>Continue</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.orText}>or</Text>
-
-        <TouchableOpacity
-          style={styles.googleButton}
-
-          // onPress={() => navigation.navigate('Password')}
-        >
-          <Image source={require('./../../assets/login/google.png')} />
-          <Text>Continue with Google</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  text: {
-    color: '#9B9B9B',
-    fontSize: 20,
-    marginTop: 40,
-  },
-  input: {
-    height: 58,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#D6A6DE',
-    borderRadius: 8,
-    marginTop: 40,
-    color: '#000',
-  },
-  button: {
-    backgroundColor: '#881098',
-    height: 58,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'white',
-    marginTop: 40,
-  },
-  googleButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: '#fffff',
-    height: 58,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#979797',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  orText: {
-    marginTop: 30,
-    textAlign: 'center',
-  },
-});

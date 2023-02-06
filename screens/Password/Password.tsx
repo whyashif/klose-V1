@@ -6,37 +6,52 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  Alert,
+  Pressable,
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import axios from 'axios';
 import {urlPort} from '../../config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuth} from '../../Context/AuthContext';
+import {styles} from './PasswordStyles';
+import {utilityStyles} from '../../UtilityStyle/UtilityStyle';
+import {DEVICE_WIDTH} from '../../App';
+import {useData} from '../../Context/UserDataContext';
 
-export const PasswordScreen = ({navigation}) => {
+export const PasswordScreen = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [newUser, setNewUser] = useState(false);
-  const [errormsg, setErrorMsg] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const {newUser} = useData();
+
+  console.log(newUser, 'password new user');
+
   const {setAuthenticated} = useAuth();
+
+  // console.log(route.params);
 
   const handleOnChange = e => {
     e.preventDefault();
     setErrorMsg('');
     setEmail(e.target.value);
-    console.log(email);
+    // console.log(email);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       if (/\s/g.test(password) === true) {
-        alert('Spaces are not allowed in Password');
+        setErrorMessage('Spaces are not allowed in Password');
       } else if (password.length <= 5) {
-        alert(' Password must be atleast 6 characters');
+        setErrorMessage(' Password must be atleast 6 characters');
         return;
       } else if (password.length > 26) {
-        alert('Password can have only 24 characters.');
+        setErrorMessage('Password can have only 24 characters.');
 
         return;
       } else {
@@ -56,7 +71,7 @@ export const PasswordScreen = ({navigation}) => {
     } catch (error) {
       if (error.response !== undefined) {
         if (error.response.data !== undefined) {
-          alert(error.response.data.message);
+          setErrorMessage(error.response.data.message);
         }
       }
       // console.log(error.response.data)
@@ -68,14 +83,39 @@ export const PasswordScreen = ({navigation}) => {
       const data_output = JSON.parse(value);
 
       if (data_output !== null) {
-        // console.log(".......", data_output)
         setEmail(data_output.emailid);
-        setNewUser(data_output.profileactive);
       }
-    } catch (e) {
-      // error reading value
-    }
+    } catch (e) {}
   };
+
+  const handleForgetPassword = () => {
+    navigation.navigate({
+      name: 'ForgotPassword',
+    });
+
+    axios
+      .post(`${urlPort}/forget/password/${email}`)
+      .then(res => {
+        // console.log(res, 'forget password response');
+        const {success} = res.data;
+        console.log(success, 'data');
+        if (success === false) {
+          const {message} = res.data;
+          alert(
+            "You've exceeded the maximum number of attempts to send verification code.",
+          );
+        } else {
+          navigation.navigate({
+            name: 'ForgotPassword',
+            params: res.data,
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getEmail();
   }, []);
@@ -83,117 +123,80 @@ export const PasswordScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          // style={{ marginTop: 20 }}
-          // style={{ width: 50, height: 50 }}
+          style={{margin: 10}}
           source={require('./../../assets/login/Back.png')}
         />
         <Image
-          // style={{ marginTop: 20 }}
+          style={{marginTop: 20}}
           source={require('./../../assets/login/Klose.png')}
         />
-        <Image
-          // style={{ display: "hidden" }}2
-          source={require('./../../assets/login/Back.png')}
-        />
+        <Image style={{margin: 10}} />
       </View>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-        }}>
-        <View>
-          <Text style={styles.text}>Password</Text>
+      <View>
+        {newUser ? (
+          <Text style={styles.signUptext}>Welcome to Klose</Text>
+        ) : (
+          <Text style={styles.signUptext}>Welcome Back</Text>
+        )}
 
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            secureTextEntry={true}
-            onChangeText={text => setPassword(text)}
-          />
+        <View style={styles.inputContainer}>
+          {newUser ? (
+            <Text style={styles.inputHeader}>Enter a new Password</Text>
+          ) : (
+            <Text style={styles.inputHeader}>Password</Text>
+          )}
+
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="********"
+              value={password}
+              placeholderTextColor="rgba(86, 86, 87, 0.3)"
+              onChangeText={text => {
+                setErrorMessage('');
+                setPassword(text);
+              }}
+              secureTextEntry={passwordVisibility}
+            />
+            <View style={{marginRight: DEVICE_WIDTH * 0.05}}>
+              {passwordVisibility ? (
+                <Pressable
+                  onPress={() => {
+                    setPasswordVisibility(!passwordVisibility);
+                  }}>
+                  <Icon name="visibility" size={20} color="#BA68C8" />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    setPasswordVisibility(!passwordVisibility);
+                  }}>
+                  <Icon name="visibility-off" size={20} color="#BA68C8" />
+                </Pressable>
+              )}
+            </View>
+          </View>
+
+          <Text style={utilityStyles.errorMessage}>{errorMessage}</Text>
         </View>
+        {newUser ? null : (
+          <TouchableOpacity
+            style={styles.buttonForgetPassword}
+            onPress={handleForgetPassword}>
+            <Text style={styles.buttonForgetPassword}>Forgot Password?</Text>
+          </TouchableOpacity>
+        )}
+
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text>Continue</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonForgetPassword}
-          onPress={handleSubmit}>
-          <Text style={styles.buttonForgetPassword}>Forgot Password?</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.orText}>or</Text>
-
-        <TouchableOpacity
-          style={styles.googleButton}
-
-          // onPress={() => navigation.navigate('Password')}
-        >
-          <Image source={require('./../../assets/login/google.png')} />
-          <Text>Continue with Google</Text>
-        </TouchableOpacity>
       </View>
+      {newUser ? (
+        <Text style={styles.inputHeader}>
+          By signing up to Klose, you agree to our Terms and Conditions and
+          Privacy Policy
+        </Text>
+      ) : null}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  text: {
-    color: '#9B9B9B',
-    fontSize: 20,
-    marginTop: 40,
-  },
-  input: {
-    height: 58,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#D6A6DE',
-    borderRadius: 8,
-    marginTop: 40,
-    color: '#000',
-  },
-  button: {
-    backgroundColor: '#881098',
-    height: 58,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'white',
-    marginTop: 40,
-  },
-
-  buttonForgetPassword: {
-    color: '#881098',
-    display: 'flex',
-    alignItems: 'flex-end',
-    fontWeight: 'bold',
-    marginVertical: 5,
-  },
-  googleButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: '#fffff',
-    height: 58,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#979797',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  orText: {
-    marginTop: 30,
-    textAlign: 'center',
-  },
-});

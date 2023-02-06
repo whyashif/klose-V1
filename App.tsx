@@ -1,21 +1,14 @@
 import React, {useEffect} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  Dimensions,
-  AppState,
-} from 'react-native';
-import BackgroundService from 'react-native-background-actions';
+import {StatusBar, StyleSheet, useColorScheme, Dimensions} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigation/StackNavigator';
-import {Login} from './screens/Login/Login';
-import Password from './screens/Password/Password';
+
 import {ContactContextProvider} from './Context/ContactContext';
-import {DeviceEventEmitter, Platform} from 'react-native';
 import {AuthenticationContextProvider} from './Context/AuthContext';
+import {UserDataContextProvider} from './Context/UserDataContext';
+import {IdContextProvider} from './Context/CardIDContext';
 
 export const DEVICE_HEIGHT = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -37,7 +30,11 @@ const App = () => {
       />
       <AuthenticationContextProvider>
         <ContactContextProvider>
-          <StackNavigator />
+          <UserDataContextProvider>
+            <IdContextProvider>
+              <StackNavigator />
+            </IdContextProvider>
+          </UserDataContextProvider>
         </ContactContextProvider>
       </AuthenticationContextProvider>
     </GestureHandlerRootView>

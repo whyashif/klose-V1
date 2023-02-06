@@ -1,31 +1,32 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {urlPort} from '../../config/config';
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {styles} from './LoginStyles';
+import {DEVICE_HEIGHT, DEVICE_WIDTH} from '../../App';
+import {utilityStyles} from '../../UtilityStyle/UtilityStyle';
+import {useData} from '../../Context/UserDataContext';
+import {useAuth} from '../../Context/AuthContext';
 
 export const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [errormsg, setErrorMsg] = useState('');
-  const [user, setUser] = useState('');
+  const [gooogleEmail, setGoogleEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [googleId, setGoogleId] = useState('');
+  const {newUser, setNewUser} = useData();
+  const {setAuthenticated} = useAuth();
+
+  console.log(newUser, 'new user');
 
   GoogleSignin.configure({
     scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
     webClientId:
-      '472167905856-dsb3m2l78mq3louhc2k9n2eb0qc1olmv.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      '472167905856-7gk6tnin825isulkoe0dpjrnotavl0vs.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
     hostedDomain: '', // specifies a hosted domain restriction
     forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
@@ -38,22 +39,27 @@ export const Login = ({navigation}) => {
 
   const signIn = async () => {
     try {
-      // await GoogleSignin.hasPlayServices();
-
-      // await GoogleSignin();
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn().then(async user => {
-        console.log('..................sign in ', user.user.id);
-        setUser(user.user.id);
-        // AsyncStorage.setItem("userInfo", user)
-        // await AsyncStorage.setItem(
-        //     'userInfo',
-        //     JSON.stringify(user.idToken)
-        // );
+        console.log('..................sign in ', user.user);
+        await axios
+          .post(`${urlPort}/social/auth/login`, {
+            socilaId: user.user.id,
+            social_email: user.user.email,
+          })
+          .then(response => {
+            if (response !== null) {
+              AsyncStorage.setItem(
+                '@token',
+                JSON.stringify(response.data.token),
+              );
+              setAuthenticated(true);
+              navigation.navigate('HomeScreen');
+              console.log(response.data.token);
+            }
+          })
+          .catch(err => console.error(err));
       });
-
-      // const userInfos =
-      // console.log(userInfos);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -62,111 +68,91 @@ export const Login = ({navigation}) => {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
       } else {
-        // some other error happened
-        // console.log(GoogleSignin);
       }
       console.log(error);
     }
-
-    // console.log("async storage service")
-    // console.log(await AsyncStorage.getItem('userInfo'))
-  };
-
-  const apiTest = () => {
-    axios
-      .get(`http://localhost:3000/social/login/data/?id=${user}`)
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
-  };
-
-  const handleOnChange = e => {
-    e.preventDefault();
-    setErrorMsg('');
-    setEmail(e.target.value);
-    console.log(email);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g.test(email) === false) {
-      // setErrorMsg('Please enter a valid email')
-      alert('Please enter a valid email');
+    if (email === '') {
+      setErrorMessage('Abey email daal bhai email');
       return;
-    }
-    await axios
-      .post(`${urlPort}/login`, {
-        email: email.toLowerCase(),
-      })
-      .then(res => {
-        const response = res.data.data;
-        console.log(response);
-        if (response !== null) {
-          AsyncStorage.setItem('@storage_Key', JSON.stringify(response));
-          navigation.navigate('PassWordScreen');
-        }
-      });
-  };
+    } else if (
+      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g.test(email) === false
+    ) {
+      setErrorMessage('Email toh sahi se daalo yaar :)');
+      return;
+    } else
+      await axios
+        .post(`${urlPort}/login`, {
+          email: email.toLowerCase(),
+        })
+        .then(res => {
+          const response = res.data.data;
 
-  const getItem = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@storage_Key');
-      const data_output = JSON.parse(value);
+          if (response !== null) {
+            AsyncStorage.setItem('@storage_Key', JSON.stringify(response));
+            console.log(
+              response.password,
+              '.....password.............................',
+            );
 
-      if (data_output !== null) {
-        console.log('.......', data_output.emailid);
-      }
-    } catch (e) {
-      // error reading value
-    }
+            if (response.password === undefined) {
+              setNewUser(true);
+            } else if (response.password !== undefined) {
+              setNewUser(false);
+            }
+            navigation.navigate({
+              name: 'PassWordScreen',
+              params: response,
+            });
+          }
+        });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <Image style={{margin: 10}} />
         <Image
-          // style={{ display: "hidden" }}
-          // source={require('./../../assets/login/Back.png')}
-          style={{margin: 10}}
+          style={{marginTop: 20}}
+          source={require('./../../assets/login/Klose.png')}
         />
-        <Image
-        // style={{ marginTop: 20 }}
-        // source={require('./../../assets/login/Klose.png')}
-        />
-        <Image
-          // style={{ display: "hidden" }}
-          // source={require('./../../assets/login/Back.png')}
-          style={{margin: 10}}
-        />
+        <Image style={{margin: 10}} />
       </View>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-        }}>
-        <View>
-          <Text style={styles.text}>Sign up or Login into Klose</Text>
+      <View>
+        <Text style={styles.signUptext}>Sign up or Login into Klose</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputHeader}>Email</Text>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="ashif@why.com"
             value={email}
-            placeholderTextColor="#565657"
-            onChangeText={text => setEmail(text)}
+            placeholderTextColor="rgba(86, 86, 87, 0.3)"
+            onChangeText={text => {
+              setErrorMessage('');
+              setEmail(text);
+            }}
           />
+          <Text style={utilityStyles.errorMessage}>{errorMessage}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          // onPress={() => navigation.navigate('Password')}
-          onPress={handleSubmit}>
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text
             style={{
               fontFamily: 'Avenir',
+              color: '#FDFEFF',
+              fontSize: DEVICE_HEIGHT * 0.015,
             }}>
             Continue
           </Text>
         </TouchableOpacity>
-
-        <Text style={styles.orText}>or</Text>
+        <View style={[utilityStyles.flexCenterRow, styles.orMargin]}>
+          <View style={styles.horizontalLine} />
+          <Text style={styles.orText}>or</Text>
+          <View style={styles.horizontalLine} />
+        </View>
 
         <TouchableOpacity style={styles.googleButton} onPress={signIn}>
           <Image source={require('./../../assets/login/google.png')} />
@@ -182,59 +168,3 @@ export const Login = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  text: {
-    color: '#9B9B9B',
-    fontSize: 20,
-    marginTop: 40,
-    fontFamily: 'Avenir',
-  },
-  input: {
-    height: 58,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#D6A6DE',
-    borderRadius: 8,
-    marginTop: 40,
-    color: '#000',
-  },
-  button: {
-    backgroundColor: '#881098',
-    height: 58,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'white',
-    marginTop: 40,
-    fontFamily: 'Avenir',
-  },
-  googleButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: '#fffff',
-    height: 58,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#979797',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  orText: {
-    marginTop: 30,
-    textAlign: 'center',
-    fontFamily: 'Avenir',
-  },
-});
