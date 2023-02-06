@@ -4,6 +4,7 @@ import BackgroundRun from '../screens/BackgroundRun';
 import CallLogsScreen from '../screens/CallLogs/CallLogs';
 import {Contact} from '../screens/ContactListing/Contact';
 import {Login} from '../screens/Login/Login';
+import {NotificationScreen} from '../screens/Notification/Notification';
 import Logout from '../screens/Password/Logout';
 import {UserCards} from '../screens/UserCards/UserCards';
 
@@ -20,6 +21,7 @@ export const TabNavigation = () => {
       <Tab.Screen name="Dialer" component={Dialer} />
       <Tab.Screen name="Call logs" component={CallLogsScreen} />
       <Tab.Screen name="LogOut" component={Logout} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
     </Tab.Navigator>
   );
 };

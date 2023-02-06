@@ -1,10 +1,8 @@
 import React, {useEffect} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StatusBar, StyleSheet, useColorScheme, Dimensions} from 'react-native';
-
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigation/StackNavigator';
-
 import {ContactContextProvider} from './Context/ContactContext';
 import {AuthenticationContextProvider} from './Context/AuthContext';
 import {UserDataContextProvider} from './Context/UserDataContext';
